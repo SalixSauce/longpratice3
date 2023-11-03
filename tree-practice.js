@@ -78,8 +78,17 @@ function getHeight(rootNode) {
 
 function balancedTree(rootNode) {
   // Your code here
-}
+  if(!rootNode) return true ;
 
+  const leftH = getHeight(rootNode.left)
+  const rightH = getHeight(rootNode.right)
+  const lBtree = balancedTree(rootNode.left)
+  const rBtree =  balancedTree(rootNode.right)
+
+  return (Math.abs(leftH - rightH) <= 1 && lBtree && rBtree)
+   
+  
+}
 function countNodes(rootNode) {
   if (!rootNode) return 0;
 
@@ -94,31 +103,52 @@ function countNodes(rootNode) {
 }
 
 function getParentNode(rootNode, target) {
-  if (rootNode.val === target) return null;
+  if(!rootNode) return undefined
+  if(rootNode.val === target) return null;
+  
 
-  let stack = [rootNode];
 
-  while (stack.length > 0) {
-    let currNode = stack.pop();
+  if (
+        (rootNode.left && rootNode.left.val === target) ||
+        (rootNode.right && rootNode.right.val === target)
+      ) return rootNode
 
-    if (
-      (currNode.left && currNode.left.val === target) ||
-      (currNode.right && currNode.right.val === target)
-    ) {
-      return currNode;
-    }
-    if (currNode.left) {
-      stack.push(currNode.left);
-    }
-    if (currNode.right) {
-      stack.push(currNode.right);
-    }
+
+  const leftChild = getParentNode(rootNode.left, target)
+  const rightChild = getParentNode(rootNode.right, target)
+
+  if(leftChild) {
+    return leftChild
   }
-  return undefined;
+  if(rightChild) {
+    return rightChild
+  }
+
+  // let stack = [rootNode];
+
+  // while (stack.length > 0) {
+  //   let currNode = stack.pop();
+
+  //   if (
+  //     (currNode.left && currNode.left.val === target) ||
+  //     (currNode.right && currNode.right.val === target)
+  //   ) {
+  //     return currNode;
+  //   }
+  //   if (currNode.left) {
+  //     stack.push(currNode.left);
+  //   }
+  //   if (currNode.right) {
+  //     stack.push(currNode.right);
+  //   }
+  // }
+  
 }
 
 function inOrderPredecessor(rootNode, target) {
   // Your code here
+  if(rootNode) return null
+
 }
 
 function deleteNodeBST(rootNode, target) {
